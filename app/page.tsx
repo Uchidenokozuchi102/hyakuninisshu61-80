@@ -229,8 +229,8 @@ export default function HyakuninIsshuApp() {
           </motion.div>
         </div>
 
-        {/* 2. 操作エリア */}
-        <div className="flex-1 flex flex-col justify-start p-4 pt-4 relative z-10">
+        {/* 2. 操作エリア (一番下に固定) */}
+        <div className="flex-1 flex flex-col justify-end p-4 pb-8 relative z-10">
           <AnimatePresence mode="wait">
             {!showResult ? (
               // 選択肢ボタン
