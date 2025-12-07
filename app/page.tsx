@@ -229,11 +229,11 @@ export default function HyakuninIsshuApp() {
           </motion.div>
         </div>
 
-        {/* 2. 操作エリア (一番下に固定) */}
+        {/* 2. 操作エリア */}
         <div className="flex-1 flex flex-col justify-end p-4 pb-8 relative z-10">
           <AnimatePresence mode="wait">
             {!showResult ? (
-              // 選択肢ボタン
+              // 選択肢ボタン (今まで通り下寄せ)
               <motion.div
                 key="options"
                 initial={{ opacity: 0, y: 20 }}
@@ -258,23 +258,25 @@ export default function HyakuninIsshuApp() {
                 ))}
               </motion.div>
             ) : (
-              // 結果表示
+              // 結果表示 (ここを変更：上下に分割配置)
               <motion.div
                 key="result"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-md mx-auto space-y-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="w-full h-full max-w-md mx-auto flex flex-col justify-between"
               >
-                <div className={`p-4 rounded-2xl border shadow-2xl backdrop-blur-md ${isCorrect ? "bg-red-950/80 border-red-500" : "bg-blue-950/80 border-blue-500"}`}>
-                  
-                  {/* 正誤判定 */}
+                {/* 上側：結果カード (mt-2 で少し隙間を空け、上の句のすぐ下に) */}
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  className={`p-4 rounded-2xl border shadow-2xl backdrop-blur-md mt-2 ${isCorrect ? "bg-red-950/80 border-red-500" : "bg-blue-950/80 border-blue-500"}`}
+                >
                   <div className="text-center mb-2">
                     <span className={`text-xl font-bold tracking-widest ${isCorrect ? "text-red-400" : "text-blue-400"}`}>
                       {isCorrect ? "正解！" : "不正解..."}
                     </span>
                   </div>
 
-                  {/* 正解の下の句 (少し小さく、文字間を詰める) */}
                   <div className="text-center mb-2">
                     <p className="text-xl md:text-2xl font-serif text-white font-bold leading-relaxed tracking-tight">{currentPoem.shimo}</p>
                   </div>
@@ -283,8 +285,9 @@ export default function HyakuninIsshuApp() {
                     <span>作者: {currentPoem.author}</span>
                     <span className="font-bold">No.{currentPoem.no}</span>
                   </div>
-                </div>
+                </motion.div>
 
+                {/* 下側：次へボタン (一番下に固定) */}
                 <button
                   onClick={handleNextQuestion}
                   className="w-full h-14 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-[0_0_15px_rgba(220,38,38,0.4)] text-lg tracking-wider flex items-center justify-center gap-2 active:scale-95"
