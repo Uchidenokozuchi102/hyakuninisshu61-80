@@ -210,18 +210,18 @@ export default function HyakuninIsshuApp() {
           </button>
         </div>
 
-        {/* 1. 上の句エリア (高さ40%確保 & 下寄せ配置) */}
-        <div className="h-[40vh] flex-none flex flex-col justify-end items-center pb-8 z-10 relative select-none">
+        {/* 1. 上の句エリア (高さ50% = 画面中央まで下ろす) */}
+        <div className="h-[50dvh] flex-none flex flex-col justify-end items-center pb-6 z-10 relative select-none">
           <motion.div
             key={currentPoem.no}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-2 px-4"
+            className="text-center space-y-3 px-4"
           >
             {kamiLines.map((line, index) => (
               <div 
                 key={index} 
-                className="font-serif text-4xl md:text-6xl text-red-500 font-bold leading-relaxed tracking-wider drop-shadow-[0_2px_10px_rgba(220,38,38,0.6)]"
+                className="font-serif text-3xl md:text-5xl text-red-500 font-bold leading-relaxed tracking-wider drop-shadow-[0_2px_10px_rgba(220,38,38,0.6)]"
               >
                 {line}
               </div>
@@ -229,8 +229,9 @@ export default function HyakuninIsshuApp() {
           </motion.div>
         </div>
 
-        {/* 2. 操作エリア (残りスペース全て - 下寄せ) */}
-        <div className="flex-1 flex flex-col justify-end p-4 pb-6 relative z-10">
+        {/* 2. 操作エリア (残りスペース = 画面中央から開始) */}
+        {/* justify-start に変更して、上の句のすぐ下に配置されるように修正 */}
+        <div className="flex-1 flex flex-col justify-start p-4 pt-4 relative z-10">
           <AnimatePresence mode="wait">
             {!showResult ? (
               // 選択肢ボタン
@@ -250,7 +251,7 @@ export default function HyakuninIsshuApp() {
                   >
                     <button
                       onClick={() => handleAnswerSelect(option)}
-                      className="w-full h-auto py-4 px-5 bg-gray-900/90 hover:bg-gray-800 text-gray-200 border border-indigo-900/30 rounded-xl font-serif text-lg text-left flex justify-start active:bg-red-900/40 active:border-red-500 transition-all"
+                      className="w-full h-auto py-3 px-4 bg-gray-900/90 hover:bg-gray-800 text-gray-200 border border-indigo-900/30 rounded-xl font-serif text-lg text-left flex justify-start active:bg-red-900/40 active:border-red-500 transition-all"
                     >
                       {option.shimo}
                     </button>
@@ -258,41 +259,35 @@ export default function HyakuninIsshuApp() {
                 ))}
               </motion.div>
             ) : (
-              // 解説カード
+              // 結果表示
               <motion.div
                 key="result"
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="w-full max-w-md mx-auto space-y-4"
               >
-                <div className={`p-5 rounded-2xl border shadow-2xl backdrop-blur-md ${isCorrect ? "bg-red-950/80 border-red-500" : "bg-blue-950/80 border-blue-500"}`}>
+                <div className={`p-4 rounded-2xl border shadow-2xl backdrop-blur-md ${isCorrect ? "bg-red-950/80 border-red-500" : "bg-blue-950/80 border-blue-500"}`}>
                   
-                  {/* 正誤判定（大きく） */}
+                  {/* 正誤判定 */}
                   <div className="text-center mb-2">
                     <span className={`text-xl font-bold tracking-widest ${isCorrect ? "text-red-400" : "text-blue-400"}`}>
                       {isCorrect ? "正解！" : "不正解..."}
                     </span>
                   </div>
 
-                  {/* 正解の下の句 (大きく、ラベルなし) */}
-                  <div className="text-center mb-4">
-                    <p className="text-3xl font-serif text-white font-bold leading-relaxed">{currentPoem.shimo}</p>
+                  {/* 正解の下の句 */}
+                  <div className="text-center mb-2">
+                    <p className="text-2xl font-serif text-white font-bold leading-relaxed">{currentPoem.shimo}</p>
                   </div>
 
-                  {/* 解説 */}
-                  <div className="max-h-32 overflow-y-auto text-sm text-gray-300 bg-black/20 p-3 rounded border border-white/5">
-                    <p className="text-gray-400 text-xs font-bold mb-1">現代語訳</p>
-                    <p className="leading-relaxed">{currentPoem.translation}</p>
-                    
-                    {/* 左下に作者、右下に番号 */}
-                    <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center text-xs text-gray-500">
-                      <span>作者: {currentPoem.author}</span>
-                      <span className="font-bold text-gray-400">No.{currentPoem.no}</span>
-                    </div>
+                  {/* 現代語訳は削除し、シンプルに作者と番号のみ表示 */}
+                  <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center text-xs text-gray-400">
+                    <span>作者: {currentPoem.author}</span>
+                    <span className="font-bold">No.{currentPoem.no}</span>
                   </div>
                 </div>
 
-                {/* 次へボタン (最下部) */}
+                {/* 次へボタン (結果カードのすぐ下に配置されるため見切れない) */}
                 <button
                   onClick={handleNextQuestion}
                   className="w-full h-14 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-[0_0_15px_rgba(220,38,38,0.4)] text-lg tracking-wider flex items-center justify-center gap-2 active:scale-95"
