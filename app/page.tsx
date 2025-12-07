@@ -210,8 +210,8 @@ export default function HyakuninIsshuApp() {
           </button>
         </div>
 
-        {/* 1. 上の句エリア (高さ50% = 画面中央まで下ろす) */}
-        <div className="h-[50dvh] flex-none flex flex-col justify-end items-center pb-6 z-10 relative select-none">
+        {/* 1. 上の句エリア (高さ45% = 少し上げる) */}
+        <div className="h-[45dvh] flex-none flex flex-col justify-end items-center pb-6 z-10 relative select-none">
           <motion.div
             key={currentPoem.no}
             initial={{ opacity: 0, y: 10 }}
@@ -229,8 +229,7 @@ export default function HyakuninIsshuApp() {
           </motion.div>
         </div>
 
-        {/* 2. 操作エリア (残りスペース = 画面中央から開始) */}
-        {/* justify-start に変更して、上の句のすぐ下に配置されるように修正 */}
+        {/* 2. 操作エリア */}
         <div className="flex-1 flex flex-col justify-start p-4 pt-4 relative z-10">
           <AnimatePresence mode="wait">
             {!showResult ? (
@@ -275,19 +274,17 @@ export default function HyakuninIsshuApp() {
                     </span>
                   </div>
 
-                  {/* 正解の下の句 */}
+                  {/* 正解の下の句 (少し小さく、文字間を詰める) */}
                   <div className="text-center mb-2">
-                    <p className="text-2xl font-serif text-white font-bold leading-relaxed">{currentPoem.shimo}</p>
+                    <p className="text-xl md:text-2xl font-serif text-white font-bold leading-relaxed tracking-tight">{currentPoem.shimo}</p>
                   </div>
 
-                  {/* 現代語訳は削除し、シンプルに作者と番号のみ表示 */}
                   <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center text-xs text-gray-400">
                     <span>作者: {currentPoem.author}</span>
                     <span className="font-bold">No.{currentPoem.no}</span>
                   </div>
                 </div>
 
-                {/* 次へボタン (結果カードのすぐ下に配置されるため見切れない) */}
                 <button
                   onClick={handleNextQuestion}
                   className="w-full h-14 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-[0_0_15px_rgba(220,38,38,0.4)] text-lg tracking-wider flex items-center justify-center gap-2 active:scale-95"
